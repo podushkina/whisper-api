@@ -135,7 +135,10 @@ WHISPER_PATH=/usr/local/bin/whisper
 
 ## API Документация
 
-API документировано с использованием OpenAPI (Swagger). Описание находится в файле `swagger.yaml`.
+API документировано с использованием OpenAPI (Swagger). Описание API находится в файле `swagger.yaml`. Вы можете просмотреть его, перейдя по следующей ссылке: [swagger.yaml](https://github.com/podushkina/whisper-api/blob/main/api/swagger.yaml%20)
+
+<img width="743" alt="image" src="https://github.com/user-attachments/assets/5f6238b1-8504-4f77-a4bd-ae6dfb5bbc7a">
+
 
 ### Примеры запросов
 
