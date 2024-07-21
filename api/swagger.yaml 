@@ -1,0 +1,205 @@
+openapi: 3.0.0
+info:
+  title: Whisper API
+  description: API для работы с локальным whisper на вашем сервере.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер
+
+paths:
+  /auth/token:
+    post:
+      summary: Получить токен
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                api_key:
+                  type: string
+                  example: "your-api-key"
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "generated-jwt-token"
+        '400':
+          description: Неверное тело запроса
+        '401':
+          description: Неверный API ключ
+
+  /transcribe:
+    post:
+      summary: Создать задание на транскрипцию
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                audio:
+                  type: string
+                  format: binary
+                language:
+                  type: string
+                  example: "en"
+                output_format:
+                  type: string
+                  example: "json"
+                model:
+                  type: string
+                  example: "base"
+                temperature:
+                  type: number
+                  format: float
+                  example: 0.7
+                threads:
+                  type: integer
+                  example: 4
+      responses:
+        '200':
+          description: Успешное создание задания
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptionTask'
+        '400':
+          description: Неверный аудиофайл
+        '500':
+          description: Ошибка сервера
+
+    get:
+      summary: Список заданий на транскрипцию
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TranscriptionTask'
+        '500':
+          description: Ошибка сервера
+
+  /transcribe/{id}:
+    get:
+      summary: Получить задание на транскрипцию по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptionTask'
+        '404':
+          description: Задание не найдено
+
+    delete:
+      summary: Удалить задание на транскрипцию по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Успешное удаление
+        '500':
+          description: Ошибка сервера
+
+  /usage:
+    get:
+      summary: Получить статистику использования
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usage'
+        '500':
+          description: Ошибка сервера
+
+  /health:
+    get:
+      summary: Проверить статус сервера
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "OK"
+                  version:
+                    type: string
+                    example: "1.0.0"
+
+components:
+  schemas:
+    TranscriptionTask:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "task-id"
+        user_id:
+          type: string
+          example: "user-id"
+        status:
+          type: string
+          enum: [pending, processing, completed, failed]
+          example: "pending"
+        transcription:
+          type: string
+          example: "Transcribed text here"
+        error:
+          type: string
+          example: "Error message if any"
+        created_at:
+          type: integer
+          example: 1627848123
+        updated_at:
+          type: integer
+          example: 1627848145
+
+    Usage:
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: "user-id"
+        request_count:
+          type: integer
+          example: 42
+        total_duration:
+          type: integer
+          example: 3600
+        total_data_size:
+          type: integer
+          example: 1048576
+        last_used_at:
+          type: string
+          format: date-time
+          example: "2024-07-21T12:34:56Z"
