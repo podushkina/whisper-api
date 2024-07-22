@@ -63,7 +63,7 @@ https://github.com/user-attachments/assets/ed83acfb-1c76-4c04-bbbc-788c3190b4c8
     - Настраивается с помощью параметров, таких как модель, язык, формат вывода, температура и количество потоков.
 
 ### Python
-- [Python](https://www.python.org/) : Используется для облегчения установки OpenAI Whisper, также используя python в Dockerfile можно настроить какая модель будет загружена.
+- [Python](https://www.python.org/) : Используется для упрощения установки OpenAI Whisper. Также, используя Python в Dockerfile, можно настроить, какая модель будет загружена.
 
 
 ## Установка
