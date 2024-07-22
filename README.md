@@ -27,6 +27,7 @@ Whisper API — это self-hosted RESTful API для интеграции в п
 
 https://github.com/user-attachments/assets/ed83acfb-1c76-4c04-bbbc-788c3190b4c8
 
+[ссылка на полную версию видео](https://drive.google.com/file/d/1esnCw6sJTidS5Fi2Nk8G8ezcUFiKDycR/view)
 
 
 ### Дополнительные способы использования
